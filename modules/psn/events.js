@@ -12,7 +12,7 @@ module.exports = {
     async guildMemberAdd (client, db, moduleName, member) {
       await member.guild.roles.fetch()
       let rolePos = member.guild.roles.find(r => r.name === '// PSN Colors')
-      member.guild.roles.create({ data: { name: member.user.username, position: rolePos.position - 1 } }).then(role => {
+      member.guild.roles.create({ data: { mentionable: true, name: member.user.username, position: rolePos.position - 1 } }).then(role => {
         db.prepare('INSERT INTO psn (user,psn,role) VALUES (?,?,?)').run(member.id, member.user.username, role.id)
         member.roles.add(role)
       })
