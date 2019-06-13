@@ -15,7 +15,7 @@ module.exports = {
       await guild.roles.fetch()
       let count = 0
 
-      let promises = guild.roles.filter(r => r.position > 0 && r.position < 69).map(r => r.delete())
+      let promises = guild.roles.filter(r => r.position > 0 && r.position < 69).map(r => /* r.delete() */ console.log(r.name))
       await Promise.all(promises)
       console.log('done')
       /* members.forEach(member => {
