@@ -14,10 +14,13 @@ module.exports = {
       let members = await guild.members.fetch()
       await guild.roles.fetch()
       let count = 0
-      let rolePos = guild.roles.find(r => r.name === '// PSN colors')
-      console.log(guild.roles.sort((a, b) => a.position - b.position).map(function (r) { return { role: r.name, pos: r.position } }))
+
+      let promises = guild.roles.filter(r => r.position > 0 && r.position < 69).map(r => r.delete())
+      await Promise.all(promises)
+      console.log('done')
       /* members.forEach(member => {
-        member.guild.roles.create({ data: { name: member.user.username, position: rolePos.position } }).then(role => {
+        let rolePos = guild.roles.find(r => r.name === '// PSN colors')
+        member.guild.roles.create({ data: { name: member.user.username, position: rolePos.position - 1} }).then(role => {
           db.prepare('INSERT INTO psn (user,psn,role) VALUES (?,?,?)').run(member.user.username, member.user.username, role.id)
 
           count++
