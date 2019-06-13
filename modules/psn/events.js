@@ -9,15 +9,6 @@ module.exports = {
     default: true
   },
   events: {
-    async ready (client, db) {
-      let guild = client.guilds.first()
-      let promises = db.prepare('SELECT role FROM psn').all().map(async function (entry) {
-        let role = await guild.roles.fetch(entry.role)
-        return role.edit({ mentionable: true })
-      })
-      await Promise.all(promises)
-      console.log('done')
-    },
     async guildMemberAdd (client, db, moduleName, member) {
       await member.guild.roles.fetch()
       let rolePos = member.guild.roles.find(r => r.name === '// PSN Colors')
