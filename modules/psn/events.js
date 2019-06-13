@@ -15,8 +15,8 @@ module.exports = {
       await guild.roles.fetch()
       let count = 0
       let rolePos = guild.roles.find(r => r.name === '// PSN colors')
-
-      members.forEach(member => {
+      console.log(guild.roles.sort((a, b) => a.position - b.position).map(function (r) { return { role: r.name, pos: r.position } }))
+      /* members.forEach(member => {
         member.guild.roles.create({ data: { name: member.user.username, position: rolePos.position } }).then(role => {
           db.prepare('INSERT INTO psn (user,psn,role) VALUES (?,?,?)').run(member.user.username, member.user.username, role.id)
 
@@ -24,7 +24,7 @@ module.exports = {
           console.log(`${count}/${members.size}`)
           process.exit(1)
         })
-      })
+      }) */
     },
     async guildMemberAdd (client, db, moduleName, member) {
       member.guild.roles.create({ data: { name: member.user.username } }).then(role => {
