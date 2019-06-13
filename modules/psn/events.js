@@ -14,9 +14,13 @@ module.exports = {
       let members = await guild.members.fetch()
       await guild.roles.fetch()
       let count = 0
-      console.log(guild.roles.filter(r => r.position < 39).map(function (r) { return { name: r.name, pos: r.position } }))
-      // let promises = guild.roles.filter(r => r.position > 0 && r.position < 68).map(r => /* r.delete() */ console.log(r.name))
-      // await Promise.all(promises)
+
+      let promises = guild.roles.filter(r => r.position > 0 && r.position < 39).map(function (r) {
+        try {
+          return r.delete()
+        } catch (e) { console.log(e) }
+      })
+      await Promise.all(promises)
       console.log('done')
       /* members.forEach(member => {
         let rolePos = guild.roles.find(r => r.name === '// PSN colors')
