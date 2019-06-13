@@ -16,17 +16,20 @@ module.exports = {
       let count = 0
 
       members.forEach(member => {
-        let rolePos = guild.roles.find(r => r.name === '// PSN colors')
+        let rolePos = guild.roles.find(r => r.name === '// PSN Colors')
         member.guild.roles.create({ data: { name: member.user.username, position: rolePos.position - 1 } }).then(role => {
           db.prepare('INSERT INTO psn (user,psn,role) VALUES (?,?,?)').run(member.user.username, member.user.username, role.id)
 
           count++
           console.log(`${count}/${members.size}`)
+          member.roles.add(role)
         })
       })
     },
     async guildMemberAdd (client, db, moduleName, member) {
-      member.guild.roles.create({ data: { name: member.user.username } }).then(role => {
+      await member.guild.roles.fetch()
+      let rolePos = member.guild.roles.find(r => r.name === '// PSN Colors')
+      member.guild.roles.create({ data: { name: member.user.username, position: rolePos.position - 1 } }).then(role => {
         db.prepare('INSERT INTO psn (user,psn,role) VALUES (?,?,?)').run(member.user.username, member.user.username, role.id)
       })
       member.guild.systemChannel.send(`Welcome to The Disflavored, ${member}`)
