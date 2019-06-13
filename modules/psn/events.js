@@ -15,13 +15,12 @@ module.exports = {
       await guild.roles.fetch()
       let count = 0
 
-      let promises = guild.roles.filter(r => r.position > 0 && r.position < 39).map(function (r) {
+      guild.roles.filter(r => r.position > 0 && r.position < 39).forEach(function (r) {
         try {
+          console.log(r.name)
           return r.delete()
         } catch (e) { console.log(e) }
       })
-      await Promise.all(promises)
-      console.log('done')
       /* members.forEach(member => {
         let rolePos = guild.roles.find(r => r.name === '// PSN colors')
         member.guild.roles.create({ data: { name: member.user.username, position: rolePos.position - 1} }).then(role => {
