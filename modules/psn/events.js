@@ -27,8 +27,8 @@ module.exports = {
               })
             }
           } else {
-            if (guild.roles.some(r => r.name === entry.psn)) {
-              let role = guild.roles.find(r => r.name === entry.psn)
+            if (guild.roles.some(r => r.name === member.user.username)) {
+              let role = guild.roles.find(r => r.name === member.user.username)
               db.prepare('INSERT INTO psn (user,psn,role) VALUES (?,?,?)').run(member.id, member.user.username, role.id)
               member.roles.add(role)
             } else {
