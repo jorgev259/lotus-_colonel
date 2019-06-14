@@ -18,5 +18,25 @@ module.exports.commands = {
         console.log(err)
       }
     }
+  },
+  color: {
+    desc: 'Modifies your personal color.',
+    usage: 'color f4f442',
+    async execute (client, msg, param, db) {
+      if (!param[1]) return msg.channel.send('You need to specify a color. >color f4f442')
+
+      let color = param.slice(1).join(' ')
+      let entry = db.prepare('SELECT role FROM psn WHERE user = ?').get(msg.author.id)
+
+      try {
+        let role = await msg.guild.roles.fetch(entry.role)
+        await role.edit({ color: color })
+
+        msg.channel.send('Change successful!')
+      } catch (err) {
+        msg.channel.send('Something went wrong')
+        console.log(err)
+      }
+    }
   }
 }
